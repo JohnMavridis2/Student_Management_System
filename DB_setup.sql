@@ -47,11 +47,11 @@ SELECT * FROM tests_done;
 DELIMITER $$
 CREATE TRIGGER update_avg AFTER INSERT ON tests_done
 FOR EACH ROW BEGIN  
-		DECLARE old_avg_grade DECIMAL(4,2);
-		DECLARE new_avg_grade DECIMAL(4,2);
+	DECLARE old_avg_grade DECIMAL(4,2);
+	DECLARE new_avg_grade DECIMAL(4,2);
         DECLARE n INT;
         
-		SELECT average_grade INTO old_avg_grade FROM students WHERE id=NEW.student_id;
+	SELECT average_grade INTO old_avg_grade FROM students WHERE id=NEW.student_id;
         SELECT COUNT(*) INTO n FROM tests_done WHERE student_id=NEW.student_id;
         SET new_avg_grade:= (NEW.grade + (n-1)*old_avg_grade)/n;
         UPDATE students SET average_grade=new_avg_grade WHERE id=NEW.student_id;
